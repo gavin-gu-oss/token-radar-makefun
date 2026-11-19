@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An offline research board for pre-token protocols. Transparent implied values, snapshot evidence and practical farm plans.">
+  <meta name="color-scheme" content="dark">
+  <title>Token Radar / Before the ticker</title>
+  <link rel="stylesheet" href="app.css">
+  <script defer src="../data.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#workspace">Skip to radar</a>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="radar-mark" aria-hidden="true"><i></i></span> TOKEN RADAR <span class="edition">/ 01</span></a>
+    <div class="snapshot"><span class="signal" aria-hidden="true"></span> SEALED SNAPSHOT <time id="snapshot-date">—</time></div>
+    <a class="model-link" href="#method">How we rank <span aria-hidden="true">↗</span></a>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <div><p class="eyebrow">THE PRE-TOKEN RESEARCH DESK</p><h1 id="page-title">Before the ticker.</h1><p class="intro-copy">Find the protocols. Understand the value. Make a plan.<br>A ranked view of protocols that <strong>record no token</strong>, built from one sealed snapshot.</p></div>
+      <div class="intro-note"><span class="eyebrow">SIGNAL, WITH THE WORK SHOWN</span><p>Every value has a formula.<br>Every protocol has a farm plan.</p><span class="muted">Offline by design. No live price feed.</span></div>
+    </section>
+    <section class="metrics" aria-label="Radar coverage">
+      <div class="metric"><span class="metric-label">PRE-TOKEN BOARD</span><strong id="stat-board">—</strong><span>Ranked by implied value</span></div>
+      <div class="metric"><span class="metric-label">WATCHLIST COVERAGE</span><strong id="stat-watch">—</strong><span id="watch-floor">At or above the TVL floor</span></div>
+      <div class="metric"><span class="metric-label">BELOW THE FLOOR</span><strong id="stat-early">—</strong><span>Early protocols on the radar</span></div>
+      <div class="metric"><span class="metric-label">ALREADY TRADING</span><strong id="stat-live">—</strong><span>Kept outside the ranking</span></div>
+    </section>
+    <section id="workspace" class="workspace" aria-label="Protocol research" tabindex="-1">
+      <div class="workspace-head"><div class="tabs" role="tablist" aria-label="Token status"><button id="board-tab" role="tab" aria-selected="true" aria-controls="board-panel">Pre-token radar <span id="board-tab-count">—</span></button><button id="live-tab" role="tab" aria-selected="false" aria-controls="live-panel" tabindex="-1">Already trading <span id="live-tab-count">—</span></button></div><span class="desk-label">RESEARCH / EXPLORE</span></div>
+      <p id="data-error" class="data-error" hidden>Snapshot data is unavailable. Keep the generated data.js beside the dashboard folder.</p>
+      <div id="board-panel" role="tabpanel" aria-labelledby="board-tab">
+        <form id="filters" class="filters" aria-label="Filter pre-token protocols">
+          <label class="search-field"><span>SEARCH PROTOCOL</span><input id="search" type="search" placeholder="Name or slug…" autocomplete="off"></label>
+          <label><span>CATEGORY</span><select id="category"><option value="">All categories</option></select></label>
+          <label><span>CHAIN</span><select id="chain"><option value="">All chains</option></select></label>
+          <label class="minimum"><span>MIN. TVL / USD</span><input id="min-tvl" type="number" min="0" step="any" placeholder="0" inputmode="decimal"></label>
+          <label class="check"><input id="watchlist" type="checkbox"><span>Watchlist only</span></label>
+        </form>
+        <div class="table-meta"><span id="result-count" role="status" aria-live="polite">Loading snapshot…</span><span class="table-hint">Select a protocol for its model &amp; farm plan <span aria-hidden="true">↗</span></span><button id="reset" class="text-button" type="button">Reset filters</button></div>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Pre-token ranking, scroll for more protocols">
+          <table class="board-table"><caption class="sr-only">Pre-token board. Original ranks reflect implied value; column buttons change the display order.</caption><thead><tr>
+            <th id="head-rank" scope="col" aria-sort="ascending"><button id="sort-rank" type="button">Rank <span>↑</span></button></th>
+            <th id="head-name" scope="col"><button id="sort-name" type="button">Protocol <span>↕</span></button></th>
+            <th scope="col">Category</th><th scope="col">Chains</th>
+            <th id="head-tvl_usd" scope="col" class="right"><button id="sort-tvl_usd" type="button">TVL <span>↕</span></button></th>
+            <th id="head-change_7d" scope="col" class="right"><button id="sort-change_7d" type="button">7d % <span>↕</span></button></th>
+            <th scope="col" class="right">Age</th>
+            <th id="head-implied_value_usd" scope="col" class="right"><button id="sort-implied_value_usd" type="button">Implied value <span>↕</span></button></th>
+          </tr></thead><tbody id="board-body"></tbody></table>
+          <div id="empty-state" class="empty" hidden><span class="empty-symbol" aria-hidden="true">◎</span><h2>No signal in this selection.</h2><p>Try a wider search, another chain, or a lower TVL minimum.</p><button id="empty-reset" type="button" class="solid-button">Reset filters</button></div>
+        </div>
+        <div class="table-foot"><span><i class="legend-dot"></i> WATCHLIST = snapshot watchlist</span><span>Ranks stay fixed when you sort or filter. Values in USD.</span></div>
+      </div>
+      <div id="live-panel" role="tabpanel" aria-labelledby="live-tab" hidden>
+        <div class="live-note"><span class="eyebrow">SEPARATE COHORT</span><h2>Already trading — market value, not an implied value</h2><p>These protocols have a recorded token. Snapshot market caps are shown here; they do not enter the pre-token ranking.</p></div>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Already trading protocols"><table><caption class="sr-only">Live-token protocols and recorded market capitalizations</caption><thead><tr><th scope="col">Protocol</th><th scope="col">Category</th><th scope="col">Chains</th><th scope="col" class="right">TVL</th><th scope="col" class="right">7d %</th><th scope="col" class="right">Market cap</th></tr></thead><tbody id="live-body"></tbody></table></div>
+        <div class="table-foot"><span id="live-count"></span><span>Recorded market cap ≠ model scenario value</span></div>
+      </div>
+    </section>
+    <section id="method" class="method" aria-labelledby="method-title">
+      <div class="method-heading"><span class="eyebrow">OPEN THE BLACK BOX</span><h2 id="method-title">A model you can inspect.</h2><p id="model-version" class="mono muted"></p></div>
+      <div class="method-copy"><p class="formula">Log-dampened TVL base <b>×</b> growth multiplier <b>×</b> maturity multiplier <b>×</b> chain bonus</p><p id="model-summary"></p><details><summary>See constants &amp; assumptions <span aria-hidden="true">+</span></summary><div id="model-constants" class="constants"></div></details><p class="claim">Implied values are this entry's own claim, not a prediction of issuance, a token price, an FDV, or expected rewards. Listing age measures observed history. A record of no token is not proof that none exists.</p></div>
+    </section>
+    <footer><span>TOKEN RADAR <span class="muted">/ Independent research</span></span><span id="source-note">Snapshot evidence. Explicit assumptions.</span></footer>
+  </main>
+  <dialog id="detail" aria-labelledby="detail-title">
+    <div class="detail-header"><div><p id="detail-rank" class="eyebrow"></p><h2 id="detail-title"></h2><p id="detail-meta" class="muted"></p></div><button id="close-detail" class="close-button" type="button" aria-label="Close protocol details">Close <span aria-hidden="true">×</span></button></div>
+    <div class="detail-grid"><div class="detail-evidence"><span class="status-badge">records no token</span><div class="value-feature"><span>IMPLIED VALUE / USD</span><strong id="detail-value"></strong><small>Heuristic scenario dollars</small></div><dl id="detail-facts" class="facts"></dl><h3>Inside the value</h3><dl id="detail-factors" class="facts factors"></dl><p id="detail-check" class="detail-check"></p></div><section class="farm-plan" aria-labelledby="farm-title"><div class="farm-heading"><span class="eyebrow">FROM RESEARCH TO A ROUTINE</span><h3 id="farm-title">Your six-step farm plan</h3><p id="farm-budget" class="muted"></p></div><ol id="farm-steps"></ol><p class="farm-disclaimer">Planning budgets are estimates. Confirm supported flows and eligibility in the protocol's own documentation; activity does not establish reward eligibility.</p></section></div>
+  </dialog>
+  <noscript><p class="data-error">Enable JavaScript to explore the local snapshot.</p></noscript>
+</body>
+</html>
